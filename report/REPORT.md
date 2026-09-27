@@ -10,12 +10,10 @@
 
 | | |
 |---|---|
-| **Name** | ______________________ |
-| **Register No.** | ______________________ |
-| **Class / Section** | ______________________ |
-| **Subject** | ______________________ |
-| **Submitted to** | ______________________ |
-| **Date** | ______________________ |
+| **Name** | Nakul T |
+| **Register No.** | 24AD068 |
+| **Subject** | Application Development |
+| **Date** | 27 September 2026 |
 
 </div>
 
