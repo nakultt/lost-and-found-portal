@@ -41,7 +41,9 @@
   .fig { margin: 0; text-align: center; }
   .fig img { width: 100%; border: 0.6pt solid #999; display: block; }
   .fig figcaption { font-size: 8.8pt; font-style: italic; margin-top: 1mm; }
-  .shots { display: grid; grid-template-columns: 1fr 1fr; gap: 3.5mm 5mm; }
+  .fig.big { margin-bottom: 3mm; }
+  .fig.big img { border: 0.8pt solid #666; }
+  .fig.big figcaption { font-size: 9.2pt; }
 
   /* Architecture diagram */
   .arch { display: flex; align-items: stretch; justify-content: space-between; margin: 2mm 0 1mm; font-family: Arial, Helvetica, sans-serif; font-size: 8.4pt; }
@@ -441,15 +443,8 @@ postsApi    <span class="cmt">fetch wrapper for /api</span></code></pre>
     <div class="running-head"><span>U21AD502 – Application Development</span><span>Campus Lost &amp; Found Portal</span></div>
     <div class="content">
       <h2>8. Output Screenshots</h2>
-      <p>The screenshots below were captured from the running application, backed by a local MongoDB database with sample data.</p>
-      <div class="shots">
-        <figure class="fig"><img src="screenshots/01-listing.png"><figcaption>Fig. 5: Listing page – all open posts, newest first</figcaption></figure>
-        <figure class="fig"><img src="screenshots/02-category-filter.png"><figcaption>Fig. 6: Filtered by category "Electronics"</figcaption></figure>
-        <figure class="fig"><img src="screenshots/03-search.png"><figcaption>Fig. 7: Keyword search for "library"</figcaption></figure>
-        <figure class="fig"><img src="screenshots/07-resolved.png"><figcaption>Fig. 8: Status filter showing resolved posts</figcaption></figure>
-        <figure class="fig"><img src="screenshots/04-form-validation.png"><figcaption>Fig. 9: Posting form – client-side validation errors</figcaption></figure>
-        <figure class="fig"><img src="screenshots/05-form-filled.png"><figcaption>Fig. 10: Posting form filled in for a found item</figcaption></figure>
-      </div>
+      <figure class="fig big"><img src="screenshots/02-category-filter.png" alt="Listing filtered by Electronics"><figcaption>Fig. 5: Listing page – searching by category "Electronics" shows only matching posts, with LOST/FOUND badges, location, date and contact details</figcaption></figure>
+      <figure class="fig big"><img src="screenshots/06-post-created.png" alt="New post at top of listing"><figcaption>Fig. 6: After submitting the form, the new post ("Silver Titan wristwatch") appears at the top of the listing with the "Your post is live!" confirmation</figcaption></figure>
     </div>
   </div>
   <div class="page-no">8</div>
@@ -460,14 +455,23 @@ postsApi    <span class="cmt">fetch wrapper for /api</span></code></pre>
   <div class="frame">
     <div class="running-head"><span>U21AD502 – Application Development</span><span>Campus Lost &amp; Found Portal</span></div>
     <div class="content">
-      <div style="display:grid;grid-template-columns: 1fr 0.4fr; gap: 5mm; align-items:start">
-        <div>
-          <figure class="fig"><img src="screenshots/06-post-created.png"><figcaption>Fig. 11: After submitting, the new post appears at the top with a confirmation toast</figcaption></figure>
-          <figure class="fig" style="margin-top:3.5mm"><img src="screenshots/09-api-response.png" style="height:48mm;object-fit:cover;object-position:top"><figcaption>Fig. 12: JSON response of <code>GET /api/posts?category=electronics</code></figcaption></figure>
-        </div>
-        <figure class="fig"><img src="screenshots/08-mobile.png"><figcaption>Fig. 13: Responsive layout on a mobile screen</figcaption></figure>
-      </div>
+      <figure class="fig big" style="width:136mm;margin:1mm auto 0"><img src="screenshots/05-form-filled.png" alt="Posting form"><figcaption>Fig. 7: Posting form filled in for a found item – type toggle, category dropdown, date, location, description and contact details</figcaption></figure>
+      <h3>8.1 Observations</h3>
+      <ul>
+        <li>All screenshots were captured from the running application, backed by a local MongoDB database with sample data.</li>
+        <li>Selecting a category chip immediately re-queries the API (<code>GET /api/posts?category=electronics</code>) and updates the item count (Fig. 5).</li>
+        <li>The form checks required fields before sending anything. On submit, the post is stored in MongoDB and shown at the top of the list without a page reload (Fig. 6, Fig. 7).</li>
+      </ul>
+    </div>
+  </div>
+  <div class="page-no">9</div>
+</section>
 
+<!-- ============================ PAGE 10 ============================ -->
+<section class="page">
+  <div class="frame">
+    <div class="running-head"><span>U21AD502 – Application Development</span><span>Campus Lost &amp; Found Portal</span></div>
+    <div class="content">
       <h2>9. Testing</h2>
       <p>The API was tested with <code>curl</code>, and the UI flows were exercised in the browser. All test cases passed.</p>
       <table>
@@ -482,65 +486,24 @@ postsApi    <span class="cmt">fetch wrapper for /api</span></code></pre>
         <tr><td>8</td><td>End-to-end post (UI)</td><td>Fill form, Submit</td><td>Post at top of listing, toast shown, stored in MongoDB</td><td>Pass</td></tr>
       </table>
       <div class="caption">Table 5: Test cases and results</div>
-    </div>
-  </div>
-  <div class="page-no">9</div>
-</section>
 
-<!-- ============================ PAGE 10 ============================ -->
-<section class="page">
-  <div class="frame">
-    <div class="running-head"><span>U21AD502 – Application Development</span><span>Campus Lost &amp; Found Portal</span></div>
-    <div class="content">
-      <h2>10. Project Structure &amp; Execution</h2>
-      <div class="two-col" style="grid-template-columns: 1.1fr 1fr">
-<pre style="margin:0"><code>lost-and-found-portal/
-├── backend/
-│   ├── models/Post.js        <span class="cmt">schema + indexes</span>
-│   ├── routes/posts.js       <span class="cmt">CRUD routes</span>
-│   ├── middleware/errorHandler.js
-│   ├── server.js             <span class="cmt">app + DB connect</span>
-│   └── seed.js               <span class="cmt">sample data</span>
-├── frontend/src/
-│   ├── api/postsApi.js       <span class="cmt">fetch wrapper</span>
-│   ├── hooks/usePosts.js     <span class="cmt">state hook</span>
-│   ├── components/           <span class="cmt">6 components</span>
-│   └── App.jsx, main.jsx
-└── report/                   <span class="cmt">this report</span></code></pre>
-<pre style="margin:0"><code><span class="cmt"># 1. Backend → http://localhost:5050</span>
-cd backend
-cp .env.example .env
-npm install
-npm run seed     <span class="cmt"># sample posts</span>
-npm start
-
-<span class="cmt"># 2. Frontend → http://localhost:5173</span>
-cd frontend
-npm install
-npm run dev</code></pre>
-      </div>
-      <p style="margin-top:2mm">Source code: <b>https://github.com/nakultt/lost-and-found-portal</b></p>
-
-      <h2>11. Future Enhancements</h2>
+      <h2>10. Future Enhancements</h2>
       <ol>
         <li><b>Authentication:</b> college-email login (JWT or Google SSO), so that only the author of a post can edit or delete it.</li>
         <li><b>Image upload:</b> direct photo upload using Multer with Cloudinary or S3, instead of pasting an image URL.</li>
         <li><b>Smart matching:</b> when a "found" item is posted, suggest "lost" posts with the same category and similar keywords, and email their owners.</li>
-        <li><b>Admin panel:</b> let the security office moderate posts and archive resolved ones; a TTL index could auto-expire old posts.</li>
-        <li><b>Real-time updates:</b> use Socket.IO so new posts appear without refreshing the page.</li>
+        <li><b>Admin panel and real-time updates:</b> moderation by the security office, and Socket.IO so new posts appear without a refresh.</li>
       </ol>
 
-      <h2>12. Conclusion</h2>
-      <p>The Campus Lost &amp; Found Portal meets all four requirements of the problem statement. <b>(a)</b> A single, validated and indexed MongoDB <code>posts</code> collection, with an embedded contact sub-document and enum-based categories, stores all lost and found items efficiently. <b>(b)</b> A RESTful Express API provides GET (list, filter, search, paginate, fetch one), POST, PUT and DELETE routes, with proper HTTP status codes and central error handling. <b>(c)</b> A modular React component tree keeps form state local to <code>PostForm</code> and shared post data in the <code>usePosts</code> custom hook, following one-way data flow. <b>(d)</b> The end-to-end data flow runs from a controlled form, through <code>fetch</code>, Express middleware, Mongoose validation and a MongoDB insert, back to a JSON response and a React re-render.</p>
-      <p>The project shows how the MERN stack's single language (JavaScript) and single data format (JSON) across every tier make it quick to build a practical tool that solves a real campus problem.</p>
+      <h2>11. Conclusion</h2>
+      <p>The Campus Lost &amp; Found Portal meets all four requirements. <b>(a)</b> A single, validated and indexed MongoDB <code>posts</code> collection, with an embedded contact sub-document, stores all items. <b>(b)</b> A RESTful Express API provides GET, POST, PUT and DELETE routes, with proper status codes and central error handling. <b>(c)</b> A modular React component tree keeps form state local to <code>PostForm</code> and shared data in the <code>usePosts</code> hook. <b>(d)</b> The data flow runs from a controlled form, through <code>fetch</code>, Express middleware, Mongoose validation and a MongoDB insert, back to a JSON response and a React re-render. The MERN stack's single language and single data format (JSON) across every tier made it quick to build a practical tool for a real campus problem. Source code and run instructions: <b>https://github.com/nakultt/lost-and-found-portal</b></p>
 
-      <h2>13. References</h2>
+      <h2>12. References</h2>
       <ol style="font-size:9.8pt">
         <li>MongoDB Documentation – Data Modeling and Indexes. https://www.mongodb.com/docs/manual/</li>
         <li>Mongoose Documentation – Schemas, Validation and Models. https://mongoosejs.com/docs/</li>
         <li>Express.js Documentation – Routing and Error Handling. https://expressjs.com/</li>
         <li>React Documentation – Managing State and Reusing Logic with Custom Hooks. https://react.dev/learn</li>
-        <li>Vite Documentation – Server Options (proxy). https://vitejs.dev/config/</li>
       </ol>
     </div>
   </div>
