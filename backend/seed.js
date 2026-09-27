@@ -52,6 +52,34 @@ const samples = [
     date: daysAgo(4),
     contact: { name: 'Karthik', email: 'karthik@college.edu' },
   },
+  {
+    type: 'lost',
+    title: 'Grey Wildcraft Backpack',
+    description: 'Contains a lab record and a blue lunch box. Left on the college bus (Route 7).',
+    category: 'bags',
+    location: 'College Bus Route 7',
+    date: daysAgo(2),
+    contact: { name: 'Divya', email: 'divya@college.edu', phone: '9988776655' },
+  },
+  {
+    type: 'found',
+    title: 'Boat Airdopes (white case)',
+    description: 'Wireless earbuds in a white charging case, found under a seat in the seminar hall.',
+    category: 'accessories',
+    location: 'Seminar Hall 1',
+    date: daysAgo(1),
+    contact: { name: 'Vignesh', email: 'vignesh@college.edu' },
+  },
+  {
+    type: 'lost',
+    title: 'Navy blue college hoodie',
+    description: 'Size M, AI&DS department hoodie. Left in the indoor stadium after practice.',
+    category: 'clothing',
+    location: 'Indoor Stadium',
+    date: daysAgo(6),
+    contact: { name: 'Sanjay', email: 'sanjay@college.edu' },
+    status: 'resolved',
+  },
 ];
 
 (async () => {

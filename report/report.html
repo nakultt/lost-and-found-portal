@@ -1,931 +1,551 @@
-<!doctype html><html><head><meta charset="utf-8"><title>Lost & Found Portal - Report</title>
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>U21AD502 – Campus Lost &amp; Found Portal – Project Report</title>
 <style>
-@page { size: A4; margin: 18mm 16mm; }
-body { font-family: 'Times New Roman', Georgia, serif; font-size: 11.5pt; line-height: 1.5; color: #111; }
-h1 { font-size: 26pt; text-align: center; margin: 0 0 8px; }
-h2 { font-size: 16pt; border-bottom: 2px solid #1f3a93; padding-bottom: 4px; color: #1f3a93; margin-top: 22px; }
-h3 { font-size: 13pt; margin: 16px 0 6px; }
-.title-page { text-align: center; padding-top: 120px; }
-.title-page h2 { border: none; color: #333; text-align: center; font-size: 18pt; }
-.title-page table { margin: 50px auto 0; font-size: 13pt; }
-.title-page td { border: none; padding: 10px 14px; text-align: left; }
-.title-page thead { display: none; }
-.page-break { page-break-after: always; }
-table { border-collapse: collapse; width: 100%; margin: 10px 0; font-size: 10pt; }
-tr, img { break-inside: avoid; }
-h2, h3, h4, p:has(+ pre) { break-after: avoid; }
-pre:has(code.language-text) { break-inside: avoid; }
-th, td { border: 1px solid #bbb; padding: 5px 8px; vertical-align: top; text-align: left; }
-th { background: #e8edf8; }
-code { font-family: Menlo, Consolas, monospace; font-size: 9pt; background: #f2f2f2; padding: 1px 3px; border-radius: 3px; }
-pre { background: #f7f7f9; border: 1px solid #ddd; border-radius: 4px; padding: 8px 10px; overflow: hidden; }
-pre code { background: none; padding: 0; font-size: 7.1pt; line-height: 1.35; white-space: pre; }
-img { max-width: 100%; border: 1px solid #ccc; display: block; margin: 8px auto; }
-</style></head><body><div class="title-page">
+  @page { size: A4; margin: 0; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body { font-family: 'Times New Roman', Times, serif; font-size: 10.4pt; line-height: 1.36; color: #000; background: #888; }
 
-<h1>Campus Lost &amp; Found Portal</h1>
-<h2>Project Report</h2>
-<p><strong>Full-Stack Web Application using MongoDB, Express.js, React and Node.js (MERN)</strong></p>
-<br>
+  /* Every page is a fixed A4 sheet with a ruled border, like the college record notebooks. */
+  .page { width: 210mm; height: 297mm; padding: 11mm 11mm 13mm; position: relative; background: #fff; margin: 0 auto 6mm; page-break-after: always; overflow: hidden; }
+  .page:last-child { page-break-after: auto; }
+  .frame { border: 1.3pt solid #000; height: 100%; padding: 7mm 10mm 6mm; display: flex; flex-direction: column; }
+  .page-no { position: absolute; bottom: 6mm; left: 0; right: 0; text-align: center; font-size: 9.5pt; }
+  .running-head { display: flex; justify-content: space-between; font-size: 8.5pt; color: #333; border-bottom: 0.6pt solid #000; padding-bottom: 1.5mm; margin-bottom: 4mm; font-style: italic; }
+  .content { flex: 1; overflow: hidden; }
+  @media print { body { background: none; } .page { margin: 0; } }
 
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody><tr>
-<td><strong>Name</strong></td>
-<td>Nakul T</td>
-</tr>
-<tr>
-<td><strong>Register No.</strong></td>
-<td>24AD068</td>
-</tr>
-<tr>
-<td><strong>Subject</strong></td>
-<td>Application Development</td>
-</tr>
-<tr>
-<td><strong>Date</strong></td>
-<td>27 September 2026</td>
-</tr>
-</tbody></table>
-</div>
+  h1, h2, h3, .cover-course { font-family: Arial, Helvetica, sans-serif; }
+  h2 { font-size: 13pt; margin: 0 0 2.2mm; padding-bottom: 1mm; border-bottom: 0.8pt solid #1f3a93; color: #1f3a93; letter-spacing: .01em; }
+  h2:not(:first-child) { margin-top: 5mm; }
+  h3 { font-size: 11pt; margin: 2.6mm 0 1.3mm; }
+  p { margin: 0 0 2.2mm; text-align: justify; }
+  ul, ol { margin: 0 0 2.4mm; padding-left: 6mm; }
+  li { margin-bottom: 0.6mm; }
 
-<div class="page-break"></div>
+  table { border-collapse: collapse; width: 100%; font-size: 9.2pt; margin: 1mm 0 1mm; }
+  th, td { border: 0.6pt solid #555; padding: 1.1mm 1.8mm; text-align: left; vertical-align: top; line-height: 1.3; }
+  th { background: #e6ebf5; font-family: Arial, Helvetica, sans-serif; font-size: 8.6pt; }
+  .caption { text-align: center; font-size: 9pt; font-style: italic; margin: 1mm 0 2.2mm; }
 
-<h2>Table of Contents</h2>
-<ol>
-<li>Introduction</li>
-<li>Technology Stack</li>
-<li>System Architecture</li>
-<li>(a) MongoDB Schema Design</li>
-<li>(b) Node.js API Routes</li>
-<li>(c) React Component Structure &amp; State Management</li>
-<li>(d) Complete Data Flow</li>
-<li>Testing</li>
-<li>Output Screenshots</li>
-<li>Project Structure &amp; How to Run</li>
-<li>Future Enhancements</li>
-<li>Conclusion</li>
-</ol>
-<div class="page-break"></div>
+  code, pre { font-family: Menlo, Consolas, 'Courier New', monospace; }
+  code { font-size: 8.4pt; background: #f1f1f1; padding: 0 1px; }
+  pre { font-size: 7.4pt; line-height: 1.3; background: #f7f7f9; border: 0.6pt solid #ccc; padding: 2mm 3mm; margin: 1mm 0 1mm; white-space: pre; overflow: hidden; }
+  pre code { background: none; font-size: inherit; padding: 0; }
+  .cmt { color: #6a737d; }
 
-<h2>1. Introduction</h2>
-<h3>1.1 Problem Statement</h3>
-<p>Students often lose items on campus, such as ID cards, calculators, chargers, books and keys. Today these are usually reported on WhatsApp groups or notice boards, where posts get buried and are hard to search. The college needs a central <strong>Lost and Found portal</strong> where students can:</p>
-<ul>
-<li><strong>Post</strong> an item they have <strong>lost</strong> or <strong>found</strong></li>
-<li><strong>View</strong> all posts in one place</li>
-<li><strong>Search</strong> posts by <strong>category</strong> (electronics, books, ID cards, etc.) and by keyword</li>
-<li><strong>Update</strong> a post (for example, mark it <em>resolved</em> once the item is returned) or <strong>delete</strong> it</li>
-</ul>
-<h3>1.2 Objectives</h3>
-<ol>
-<li>Design a MongoDB schema for storing lost/found posts.</li>
-<li>Build a REST API in Node.js/Express that supports GET, POST, PUT and DELETE.</li>
-<li>Build a React front end with a posting form and a searchable listing page.</li>
-<li>Explain the complete data flow from the moment a user submits a post until it appears in the listing.</li>
-</ol>
-<h2>2. Technology Stack</h2>
-<table>
-<thead>
-<tr>
-<th>Layer</th>
-<th>Technology</th>
-<th>Purpose</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>Database</td>
-<td><strong>MongoDB</strong></td>
-<td>Stores posts as JSON-like documents</td>
-</tr>
-<tr>
-<td>ODM</td>
-<td><strong>Mongoose</strong></td>
-<td>Defines the schema, runs validation and builds queries</td>
-</tr>
-<tr>
-<td>Backend</td>
-<td><strong>Node.js + Express.js</strong></td>
-<td>REST API server</td>
-</tr>
-<tr>
-<td>Frontend</td>
-<td><strong>React 18 (Vite)</strong></td>
-<td>Single-page user interface</td>
-</tr>
-<tr>
-<td>Communication</td>
-<td><strong>HTTP + JSON (Fetch API)</strong></td>
-<td>Client–server data exchange</td>
-</tr>
-<tr>
-<td>Tools</td>
-<td>npm, VS Code, Chrome DevTools, curl</td>
-<td>Development and testing</td>
-</tr>
-</tbody></table>
-<h2>3. System Architecture</h2>
-<p>The application follows a <strong>three-tier architecture</strong>:</p>
-<pre><code class="language-text">┌──────────────────────┐   HTTP/JSON    ┌──────────────────────┐   Mongoose   ┌──────────────────┐
-│   PRESENTATION TIER  │  ───────────▶  │   APPLICATION TIER   │  ─────────▶  │    DATA TIER     │
-│                      │                │                      │              │                  │
-│   React (browser)    │  GET/POST/     │  Node.js + Express   │  find(),     │    MongoDB       │
-│  - PostForm          │  PUT/DELETE    │  - routes/posts.js   │  create(),   │  lost_and_found  │
-│  - ListingPage       │  /api/posts    │  - validation        │  update...   │  └─ posts        │
-│  - usePosts (state)  │  ◀───────────  │  - error handling    │  ◀─────────  │     collection   │
-└──────────────────────┘   JSON reply   └──────────────────────┘   documents  └──────────────────┘
-      localhost:5173                          localhost:5050                     localhost:27017
-</code></pre>
-<div class="page-break"></div>
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 4mm; }
+  .fig { margin: 0; text-align: center; }
+  .fig img { width: 100%; border: 0.6pt solid #999; display: block; }
+  .fig figcaption { font-size: 8.8pt; font-style: italic; margin-top: 1mm; }
+  .shots { display: grid; grid-template-columns: 1fr 1fr; gap: 3.5mm 5mm; }
 
-<h2>4. (a) MongoDB Schema Design</h2>
-<h3>4.1 Design Decisions</h3>
-<table>
-<thead>
-<tr>
-<th>Decision</th>
-<th>Reason</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><strong>One <code>posts</code> collection</strong> for both lost and found items, told apart by a <code>type</code> field</td>
-<td>Both kinds of post have the same fields. One collection makes &quot;view all posts&quot; a single query, and lost/found becomes just another filter.</td>
-</tr>
-<tr>
-<td><strong><code>category</code> stored as an enum string</strong></td>
-<td>Categories are fixed and few in number. An enum stops invalid values, and the category can be read without a join or <code>$lookup</code>.</td>
-</tr>
-<tr>
-<td><strong><code>contact</code> embedded</strong> as a sub-document</td>
-<td>Contact details are always shown together with the post and are never queried on their own, so embedding is the right MongoDB pattern.</td>
-</tr>
-<tr>
-<td><strong><code>date</code> kept separate from <code>createdAt</code></strong></td>
-<td><code>date</code> records when the item was lost or found; <code>createdAt</code> records when it was posted. Both are useful.</td>
-</tr>
-<tr>
-<td><strong><code>status</code> field (<code>open</code> / <code>resolved</code>)</strong></td>
-<td>Returned items can be marked resolved instead of deleted, so the history is kept.</td>
-</tr>
-<tr>
-<td><strong><code>timestamps: true</code></strong></td>
-<td>Mongoose maintains <code>createdAt</code> and <code>updatedAt</code> automatically, which are used for &quot;newest first&quot; sorting.</td>
-</tr>
-</tbody></table>
-<h3>4.2 Collection: <code>posts</code></h3>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Required</th>
-<th>Constraints / Notes</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><code>_id</code></td>
-<td>ObjectId</td>
-<td>auto</td>
-<td>Primary key generated by MongoDB</td>
-</tr>
-<tr>
-<td><code>type</code></td>
-<td>String</td>
-<td>✔</td>
-<td>enum: <code>lost</code>, <code>found</code></td>
-</tr>
-<tr>
-<td><code>title</code></td>
-<td>String</td>
-<td>✔</td>
-<td>3–100 chars, trimmed</td>
-</tr>
-<tr>
-<td><code>description</code></td>
-<td>String</td>
-<td>✔</td>
-<td>max 1000 chars</td>
-</tr>
-<tr>
-<td><code>category</code></td>
-<td>String</td>
-<td>✔</td>
-<td>enum: <code>electronics</code>, <code>books</code>, <code>id-cards</code>, <code>keys</code>, <code>bags</code>, <code>clothing</code>, <code>accessories</code>, <code>stationery</code>, <code>others</code></td>
-</tr>
-<tr>
-<td><code>location</code></td>
-<td>String</td>
-<td>✔</td>
-<td>e.g. &quot;Central Library, 2nd floor&quot;</td>
-</tr>
-<tr>
-<td><code>date</code></td>
-<td>Date</td>
-<td>✔</td>
-<td>Date lost/found; cannot be in the future</td>
-</tr>
-<tr>
-<td><code>imageUrl</code></td>
-<td>String</td>
-<td>✘</td>
-<td>Optional photo link</td>
-</tr>
-<tr>
-<td><code>contact.name</code></td>
-<td>String</td>
-<td>✔</td>
-<td>max 60 chars</td>
-</tr>
-<tr>
-<td><code>contact.email</code></td>
-<td>String</td>
-<td>✔</td>
-<td>valid email format, lower-cased</td>
-</tr>
-<tr>
-<td><code>contact.phone</code></td>
-<td>String</td>
-<td>✘</td>
-<td>7–15 digits</td>
-</tr>
-<tr>
-<td><code>status</code></td>
-<td>String</td>
-<td>auto</td>
-<td>enum: <code>open</code> (default), <code>resolved</code></td>
-</tr>
-<tr>
-<td><code>createdAt</code></td>
-<td>Date</td>
-<td>auto</td>
-<td>Added by <code>timestamps</code></td>
-</tr>
-<tr>
-<td><code>updatedAt</code></td>
-<td>Date</td>
-<td>auto</td>
-<td>Added by <code>timestamps</code></td>
-</tr>
-</tbody></table>
-<h3>4.3 Sample Document</h3>
-<pre><code class="language-json">{
-  &quot;_id&quot;: &quot;6ab942853cd841cf2f13e401&quot;,
-  &quot;type&quot;: &quot;found&quot;,
-  &quot;title&quot;: &quot;Casio fx-991ES Calculator&quot;,
-  &quot;description&quot;: &quot;Scientific calculator found in exam hall after the maths paper.&quot;,
-  &quot;category&quot;: &quot;electronics&quot;,
-  &quot;location&quot;: &quot;Exam Hall B&quot;,
-  &quot;date&quot;: &quot;2026-09-25T00:00:00.000Z&quot;,
-  &quot;contact&quot;: {
-    &quot;name&quot;: &quot;Rahul&quot;,
-    &quot;email&quot;: &quot;rahul@college.edu&quot;,
-    &quot;phone&quot;: &quot;9123456780&quot;
-  },
-  &quot;status&quot;: &quot;open&quot;,
-  &quot;createdAt&quot;: &quot;2026-09-27T16:21:09.412Z&quot;,
-  &quot;updatedAt&quot;: &quot;2026-09-27T16:21:09.412Z&quot;
-}
-</code></pre>
-<h3>4.4 Mongoose Schema (<code>backend/models/Post.js</code>)</h3>
-<pre><code class="language-js">const CATEGORIES = [&#39;electronics&#39;, &#39;books&#39;, &#39;id-cards&#39;, &#39;keys&#39;, &#39;bags&#39;,
-                    &#39;clothing&#39;, &#39;accessories&#39;, &#39;stationery&#39;, &#39;others&#39;];
+  /* Architecture diagram */
+  .arch { display: flex; align-items: stretch; justify-content: space-between; margin: 2mm 0 1mm; font-family: Arial, Helvetica, sans-serif; font-size: 8.4pt; }
+  .tier { border: 1pt solid #1f3a93; border-radius: 2mm; width: 29.5%; padding: 2mm; background: #f4f7fd; }
+  .tier b { display: block; text-align: center; background: #1f3a93; color: #fff; margin: -2mm -2mm 1.5mm; padding: 1mm; border-radius: 1.6mm 1.6mm 0 0; font-size: 8.6pt; }
+  .tier ul { padding-left: 4mm; margin: 0; }
+  .tier .port { text-align: center; color: #555; margin-top: 1mm; font-size: 7.8pt; }
+  .arrow { display: flex; flex-direction: column; justify-content: center; align-items: center; width: 5.5%; font-size: 6.6pt; text-align: center; color: #1f3a93; }
+  .arrow span { font-size: 14pt; line-height: 1; }
+
+  /* Cover */
+  .cover .frame { padding: 8mm 10mm; align-items: center; text-align: center; }
+  .cover-logo { width: 150mm; margin-top: 4mm; }
+  .cover-address { font-family: Arial, Helvetica, sans-serif; color: #1f4e96; font-size: 11pt; margin-top: 1.5mm; }
+  .cover-course { font-size: 16pt; font-weight: bold; margin-top: 44mm; }
+  .cover-year { font-size: 12pt; margin-top: 1mm; }
+  .cover-title { margin-top: 30mm; font-size: 12.5pt; }
+  .cover-title .big { font-family: Arial, Helvetica, sans-serif; font-size: 18pt; font-weight: bold; margin: 3mm 0 1.5mm; letter-spacing: .01em; }
+  .cover-by { margin-top: 26mm; font-size: 12pt; line-height: 1.7; }
+  .cover-ay { margin-top: auto; margin-bottom: 14mm; font-size: 12pt; }
+</style>
+</head>
+<body>
+
+<!-- ============================ PAGE 1 : COVER ============================ -->
+<section class="page cover">
+  <div class="frame">
+    <img class="cover-logo" src="assets/kpr-logo.png" alt="KPR Institute of Engineering and Technology">
+    <div class="cover-address">Avinashi Road, Arasur, Coimbatore - 641 407</div>
+
+    <div class="cover-course">U21AD502 – APPLICATION DEVELOPMENT</div>
+    <div class="cover-year">III year B.Tech. Artificial Intelligence and Data Science</div>
+
+    <div class="cover-title">
+      Mini Project Report
+      <div class="big">CAMPUS LOST &amp; FOUND PORTAL</div>
+      A Full-Stack Web Application using MongoDB, Express.js, React and Node.js
+    </div>
+
+    <div class="cover-by">
+      Submitted by<br>
+      <b>NAKUL T</b><br>
+      Register No: <b>24AD068</b>
+    </div>
+
+    <div class="cover-ay">Academic Year: 2026 - 27</div>
+  </div>
+  <div class="page-no">1</div>
+</section>
+
+<!-- ============================ PAGE 2 ============================ -->
+<section class="page">
+  <div class="frame">
+    <div class="running-head"><span>U21AD502 – Application Development</span><span>Campus Lost &amp; Found Portal</span></div>
+    <div class="content">
+      <h2>Abstract</h2>
+      <p>Students regularly lose belongings on campus, such as ID cards, calculators, chargers, books and keys, and the only ways to report them today are scattered WhatsApp groups and notice boards. This project builds a <b>Campus Lost &amp; Found Portal</b>, a web application where students can post items they have lost or found, browse every post in one place, and search by category and keyword. It uses the <b>MERN stack</b>: a <b>MongoDB</b> database modelled with <b>Mongoose</b>, a RESTful <b>Node.js/Express</b> API that supports GET, POST, PUT and DELETE, and a <b>React</b> single-page front end. The report presents the database schema, the API design, the React component structure with its state management, and the complete data flow from a user submitting a post until it appears in the listing.</p>
+
+      <h2>1. Introduction</h2>
+      <h3>1.1 Problem Statement</h3>
+      <p>A college wants a "Lost and Found" portal where students can post items they have lost or found, view all posts, and search by category (electronics, books, ID cards, etc.). The system must store the posts, show them to everyone, and let the author update a post (for example, mark it resolved once the item is returned) or delete it.</p>
+      <h3>1.2 Objectives</h3>
+      <ol>
+        <li>Design a MongoDB schema for storing lost/found posts, with validation and indexes.</li>
+        <li>Design and build Node.js API routes (GET, POST, PUT, DELETE) to support the feature.</li>
+        <li>Design the React component structure for the posting form and the listing page, including state management.</li>
+        <li>Explain the complete data flow: frontend → backend → database → frontend.</li>
+      </ol>
+      <h3>1.3 Scope</h3>
+      <ul>
+        <li>Create posts of type <i>lost</i> or <i>found</i>, with category, location, date, description and contact details.</li>
+        <li>List posts newest-first, with filters for category, type and status, keyword search, and pagination.</li>
+        <li>Mark posts as resolved or reopen them, and delete posts.</li>
+        <li>A responsive layout that works on desktop and mobile browsers.</li>
+      </ul>
+
+      <h2>2. Technology Stack</h2>
+      <table>
+        <tr><th style="width:18%">Layer</th><th style="width:27%">Technology</th><th>Purpose</th></tr>
+        <tr><td>Database</td><td>MongoDB 8</td><td>Stores posts as JSON-like (BSON) documents in the <code>posts</code> collection</td></tr>
+        <tr><td>ODM</td><td>Mongoose 8</td><td>Schema definition, validation, indexes and query building</td></tr>
+        <tr><td>Backend</td><td>Node.js + Express 4</td><td>REST API server, middleware, routing and error handling</td></tr>
+        <tr><td>Frontend</td><td>React 18 + Vite 5</td><td>Component-based single-page user interface with hooks for state</td></tr>
+        <tr><td>Communication</td><td>HTTP + JSON (Fetch API)</td><td>Client–server data exchange; the Vite dev proxy forwards <code>/api</code> to Express</td></tr>
+        <tr><td>Tools</td><td>npm, VS Code, Chrome DevTools, curl, mongosh</td><td>Development, debugging and API/database testing</td></tr>
+      </table>
+      <div class="caption">Table 1: Technology stack</div>
+    </div>
+  </div>
+  <div class="page-no">2</div>
+</section>
+
+<!-- ============================ PAGE 3 ============================ -->
+<section class="page">
+  <div class="frame">
+    <div class="running-head"><span>U21AD502 – Application Development</span><span>Campus Lost &amp; Found Portal</span></div>
+    <div class="content">
+      <h2>3. System Architecture</h2>
+      <p>The application follows a <b>three-tier architecture</b>. The React client talks to the Express server only through HTTP/JSON, and only the server talks to the database.</p>
+      <div class="arch">
+        <div class="tier"><b>PRESENTATION TIER</b>React (browser)
+          <ul><li>PostForm – posting form</li><li>ListingPage – search &amp; list</li><li>usePosts – shared state</li><li>postsApi – fetch wrapper</li></ul>
+          <div class="port">localhost:5173</div></div>
+        <div class="arrow">HTTP<span>⇄</span>JSON</div>
+        <div class="tier"><b>APPLICATION TIER</b>Node.js + Express
+          <ul><li>cors, express.json</li><li>routes/posts.js (CRUD)</li><li>Field whitelisting</li><li>Central error handler</li></ul>
+          <div class="port">localhost:5050</div></div>
+        <div class="arrow">Mongoose<span>⇄</span>BSON</div>
+        <div class="tier"><b>DATA TIER</b>MongoDB
+          <ul><li>Database: lost_and_found</li><li>Collection: posts</li><li>Compound + text indexes</li><li>Schema-validated documents</li></ul>
+          <div class="port">localhost:27017</div></div>
+      </div>
+      <div class="caption">Fig. 1: Three-tier architecture of the portal</div>
+
+      <h2>4. (a) MongoDB Schema Design</h2>
+      <h3>4.1 Design Decisions</h3>
+      <ul>
+        <li><b>Single <code>posts</code> collection</b> for both lost and found items, told apart by a <code>type</code> field. Both have the same fields, so "view all posts" is one query and lost/found is just another filter.</li>
+        <li><b>Category as an enum string.</b> Categories are few and fixed, so an enum rejects invalid values and avoids a separate collection and <code>$lookup</code> joins.</li>
+        <li><b>Embedded <code>contact</code> sub-document.</b> Contact details are always read together with the post and never queried alone, so embedding is the natural document-model choice.</li>
+        <li><b><code>date</code> kept separate from <code>createdAt</code>.</b> One records when the item was lost or found, the other when it was posted.</li>
+        <li><b><code>status</code> (open / resolved)</b> lets returned items be closed without deleting them, and <b><code>timestamps</code></b> maintain <code>createdAt</code>/<code>updatedAt</code> for newest-first sorting.</li>
+      </ul>
+      <h3>4.2 Collection Structure – <code>posts</code></h3>
+      <table>
+        <tr><th style="width:17%">Field</th><th style="width:11%">Type</th><th style="width:10%">Required</th><th>Constraints / Notes</th></tr>
+        <tr><td><code>_id</code></td><td>ObjectId</td><td>auto</td><td>Primary key generated by MongoDB</td></tr>
+        <tr><td><code>type</code></td><td>String</td><td>Yes</td><td>enum: <code>lost</code>, <code>found</code></td></tr>
+        <tr><td><code>title</code></td><td>String</td><td>Yes</td><td>3–100 characters, trimmed</td></tr>
+        <tr><td><code>description</code></td><td>String</td><td>Yes</td><td>Maximum 1000 characters</td></tr>
+        <tr><td><code>category</code></td><td>String</td><td>Yes</td><td>enum: electronics, books, id-cards, keys, bags, clothing, accessories, stationery, others</td></tr>
+        <tr><td><code>location</code></td><td>String</td><td>Yes</td><td>Where the item was lost/found, e.g. "Central Library, 2nd floor"</td></tr>
+        <tr><td><code>date</code></td><td>Date</td><td>Yes</td><td>Date lost/found; custom validator rejects future dates</td></tr>
+        <tr><td><code>imageUrl</code></td><td>String</td><td>No</td><td>Optional photo link</td></tr>
+        <tr><td><code>contact</code></td><td>Object</td><td>Yes</td><td>{ <code>name</code> (req.), <code>email</code> (req., regex-validated), <code>phone</code> (optional, 7–15 digits) }</td></tr>
+        <tr><td><code>status</code></td><td>String</td><td>auto</td><td>enum: <code>open</code> (default), <code>resolved</code></td></tr>
+        <tr><td><code>createdAt</code>, <code>updatedAt</code></td><td>Date</td><td>auto</td><td>Maintained by Mongoose <code>timestamps</code> option</td></tr>
+      </table>
+      <div class="caption">Table 2: Fields of the posts collection</div>
+    </div>
+  </div>
+  <div class="page-no">3</div>
+</section>
+
+<!-- ============================ PAGE 4 ============================ -->
+<section class="page">
+  <div class="frame">
+    <div class="running-head"><span>U21AD502 – Application Development</span><span>Campus Lost &amp; Found Portal</span></div>
+    <div class="content">
+      <h3 style="margin-top:0">4.3 Mongoose Schema (<code>backend/models/Post.js</code>)</h3>
+<pre><code>const CATEGORIES = ['electronics', 'books', 'id-cards', 'keys', 'bags',
+                    'clothing', 'accessories', 'stationery', 'others'];
 
 const contactSchema = new mongoose.Schema({
   name:  { type: String, required: true, trim: true, maxlength: 60 },
   email: { type: String, required: true, lowercase: true,
-           match: [/^\S+@\S+\.\S+$/, &#39;Please enter a valid email&#39;] },
-  phone: { type: String, match: [/^[0-9+\-\s]{7,15}$/, &#39;Invalid phone&#39;] },
-}, { _id: false });
+           match: [/^\S+@\S+\.\S+$/, 'Please enter a valid email'] },
+  phone: { type: String, match: [/^[0-9+\-\s]{7,15}$/, 'Please enter a valid phone number'] },
+}, { _id: false });                                    <span class="cmt">// embedded, no separate _id</span>
 
 const postSchema = new mongoose.Schema({
-  type:        { type: String, enum: [&#39;lost&#39;, &#39;found&#39;], required: true },
+  type:        { type: String, enum: ['lost', 'found'], required: true },
   title:       { type: String, required: true, trim: true, minlength: 3, maxlength: 100 },
   description: { type: String, required: true, trim: true, maxlength: 1000 },
   category:    { type: String, enum: CATEGORIES, required: true },
-  location:    { type: String, required: true, trim: true },
-  date:        { type: Date, required: true,
-                 validate: { validator: v =&gt; v.getTime() &lt;= Date.now() + 86400000,
-                             message: &#39;Date cannot be in the future&#39; } },
+  location:    { type: String, required: true, trim: true, maxlength: 120 },
+  date: { type: Date, required: true,
+          validate: { validator: v =&gt; v.getTime() &lt;= Date.now() + 24*60*60*1000,
+                      message: 'Date cannot be in the future' } },
   imageUrl:    { type: String, trim: true },
   contact:     { type: contactSchema, required: true },
-  status:      { type: String, enum: [&#39;open&#39;, &#39;resolved&#39;], default: &#39;open&#39; },
-}, { timestamps: true });
-</code></pre>
-<h3>4.5 Indexes</h3>
-<pre><code class="language-js">// 1. Compound index – speeds up &quot;filter by category/type, newest first&quot;
+  status:      { type: String, enum: ['open', 'resolved'], default: 'open' },
+}, { timestamps: true });                              <span class="cmt">// adds createdAt, updatedAt</span>
+
+module.exports = mongoose.model('Post', postSchema);</code></pre>
+
+      <h3>4.4 Indexes</h3>
+<pre><code><span class="cmt">// Compound index: serves "filter by category/type, newest first" without a collection scan</span>
 postSchema.index({ category: 1, type: 1, createdAt: -1 });
 
-// 2. Text index – supports keyword search over title, description, location
-postSchema.index(
-  { title: &#39;text&#39;, description: &#39;text&#39;, location: &#39;text&#39; },
-  { weights: { title: 5, location: 2, description: 1 } }
-);
-</code></pre>
-<p>Without indexes, MongoDB has to scan every document for each category search (a <strong>COLLSCAN</strong>). With the compound index it jumps straight to the matching documents (an <strong>IXSCAN</strong>), which keeps the portal fast as posts pile up over the semesters.</p>
-<div class="page-break"></div>
+<span class="cmt">// Weighted text index over the searchable fields</span>
+postSchema.index({ title: 'text', description: 'text', location: 'text' },
+                 { weights: { title: 5, location: 2, description: 1 } });</code></pre>
+      <p>Without an index, every category search has to scan the whole collection (<b>COLLSCAN</b>). The compound index lets MongoDB jump straight to the matching, already-sorted entries (<b>IXSCAN</b>), so the portal stays fast as posts pile up over many semesters.</p>
 
-<h2>5. (b) Node.js API Routes</h2>
-<p>Base URL: <code>http://localhost:5050/api</code></p>
-<h3>5.1 Route Summary</h3>
-<table>
-<thead>
-<tr>
-<th>Method</th>
-<th>Endpoint</th>
-<th>Description</th>
-<th>Success</th>
-<th>Errors</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><strong>GET</strong></td>
-<td><code>/posts</code></td>
-<td>List posts, with filtering, search &amp; pagination</td>
-<td>200</td>
-<td>500</td>
-</tr>
-<tr>
-<td><strong>GET</strong></td>
-<td><code>/posts/categories</code></td>
-<td>List categories with count of open posts</td>
-<td>200</td>
-<td>500</td>
-</tr>
-<tr>
-<td><strong>GET</strong></td>
-<td><code>/posts/:id</code></td>
-<td>Get a single post</td>
-<td>200</td>
-<td>400, 404</td>
-</tr>
-<tr>
-<td><strong>POST</strong></td>
-<td><code>/posts</code></td>
-<td>Create a new lost/found post</td>
-<td>201</td>
-<td>400</td>
-</tr>
-<tr>
-<td><strong>PUT</strong></td>
-<td><code>/posts/:id</code></td>
-<td>Update a post (edit details / mark resolved)</td>
-<td>200</td>
-<td>400, 404</td>
-</tr>
-<tr>
-<td><strong>DELETE</strong></td>
-<td><code>/posts/:id</code></td>
-<td>Delete a post</td>
-<td>200</td>
-<td>400, 404</td>
-</tr>
-</tbody></table>
-<h3>5.2 Query Parameters for <code>GET /posts</code></h3>
-<table>
-<thead>
-<tr>
-<th>Param</th>
-<th>Example</th>
-<th>Effect</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><code>category</code></td>
-<td><code>electronics</code></td>
-<td>Only posts in this category</td>
-</tr>
-<tr>
-<td><code>type</code></td>
-<td><code>lost</code> / <code>found</code></td>
-<td>Only lost or only found items</td>
-</tr>
-<tr>
-<td><code>status</code></td>
-<td><code>open</code> / <code>resolved</code></td>
-<td>Filter by status</td>
-</tr>
-<tr>
-<td><code>q</code></td>
-<td><code>calculator</code></td>
-<td>Case-insensitive search in title, description, location</td>
-</tr>
-<tr>
-<td><code>page</code>, <code>limit</code></td>
-<td><code>1</code>, <code>12</code></td>
-<td>Pagination (limit capped at 50)</td>
-</tr>
-</tbody></table>
-<p>Example: <code>GET /api/posts?category=electronics&amp;type=found&amp;q=calc&amp;page=1</code></p>
-<h3>5.3 Request / Response Examples</h3>
-<p><strong>POST /api/posts</strong>, request body:</p>
-<pre><code class="language-json">{
-  &quot;type&quot;: &quot;lost&quot;,
-  &quot;title&quot;: &quot;Blue water bottle&quot;,
-  &quot;description&quot;: &quot;Milton 1L, has a sticker&quot;,
-  &quot;category&quot;: &quot;others&quot;,
-  &quot;location&quot;: &quot;Gym&quot;,
-  &quot;date&quot;: &quot;2026-09-27&quot;,
-  &quot;contact&quot;: { &quot;name&quot;: &quot;Test&quot;, &quot;email&quot;: &quot;t@college.edu&quot; }
-}
-</code></pre>
-<p>Response <code>201 Created</code>:</p>
-<pre><code class="language-json">{
-  &quot;success&quot;: true,
-  &quot;data&quot;: {
-    &quot;_id&quot;: &quot;6ab9429db703e415cb5d87cb&quot;,
-    &quot;type&quot;: &quot;lost&quot;, &quot;title&quot;: &quot;Blue water bottle&quot;, &quot;status&quot;: &quot;open&quot;,
-    &quot;createdAt&quot;: &quot;2026-09-27T16:21:49.017Z&quot;, &quot;...&quot;: &quot;...&quot;
-  }
-}
-</code></pre>
-<p>Response <code>400 Bad Request</code> (validation failed):</p>
-<pre><code class="language-json">{
-  &quot;success&quot;: false,
-  &quot;message&quot;: &quot;Validation failed&quot;,
-  &quot;errors&quot;: {
-    &quot;title&quot;: &quot;Title must be at least 3 characters&quot;,
-    &quot;category&quot;: &quot;Invalid category&quot;,
-    &quot;contact.email&quot;: &quot;Please enter a valid email&quot;
-  }
-}
-</code></pre>
-<p><strong>GET /api/posts?category=electronics</strong>, response <code>200 OK</code>:</p>
-<pre><code class="language-json">{
-  &quot;success&quot;: true,
-  &quot;data&quot;: [ { &quot;title&quot;: &quot;Casio fx-991ES Calculator&quot;, &quot;...&quot;: &quot;...&quot; },
-            { &quot;title&quot;: &quot;Black HP Laptop Charger&quot;,  &quot;...&quot;: &quot;...&quot; } ],
-  &quot;pagination&quot;: { &quot;page&quot;: 1, &quot;limit&quot;: 12, &quot;total&quot;: 2, &quot;pages&quot;: 1 }
-}
-</code></pre>
-<h3>5.4 Route Implementation (<code>backend/routes/posts.js</code>, key parts)</h3>
-<pre><code class="language-js">// GET /api/posts – list with filters
-router.get(&#39;/&#39;, async (req, res, next) =&gt; {
-  try {
-    const { category, type, status, q } = req.query;
-    const page  = Math.max(parseInt(req.query.page) || 1, 1);
-    const limit = Math.min(parseInt(req.query.limit) || 12, 50);
+      <h3>4.5 Sample Stored Documents</h3>
+      <p>Fig. 2 shows real documents in the <code>posts</code> collection, queried with <code>mongosh</code> after posts were created from the React form.</p>
+      <figure class="fig"><img src="screenshots/10-mongodb.png" alt="mongosh output"><figcaption>Fig. 2: Documents stored in MongoDB (mongosh query on the posts collection)</figcaption></figure>
+    </div>
+  </div>
+  <div class="page-no">4</div>
+</section>
 
-    const filter = {};
-    if (category &amp;&amp; category !== &#39;all&#39;) filter.category = category;
-    if (type &amp;&amp; type !== &#39;all&#39;)         filter.type = type;
-    if (status &amp;&amp; status !== &#39;all&#39;)     filter.status = status;
-    if (q) {
-      const rx = new RegExp(escapeRegex(q.trim()), &#39;i&#39;);
-      filter.$or = [{ title: rx }, { description: rx }, { location: rx }];
-    }
+<!-- ============================ PAGE 5 ============================ -->
+<section class="page">
+  <div class="frame">
+    <div class="running-head"><span>U21AD502 – Application Development</span><span>Campus Lost &amp; Found Portal</span></div>
+    <div class="content">
+      <h2>5. (b) Node.js API Routes</h2>
+      <p>The Express server exposes a RESTful resource at <code>/api/posts</code>. Every response has the shape <code>{ success, data | message, errors? }</code>.</p>
+      <table>
+        <tr><th style="width:10%">Method</th><th style="width:25%">Endpoint</th><th>Description</th><th style="width:10%">Success</th><th style="width:11%">Errors</th></tr>
+        <tr><td><b>GET</b></td><td><code>/api/posts</code></td><td>List posts, with filtering, keyword search and pagination</td><td>200</td><td>500</td></tr>
+        <tr><td><b>GET</b></td><td><code>/api/posts/categories</code></td><td>Categories with the number of open posts in each</td><td>200</td><td>500</td></tr>
+        <tr><td><b>GET</b></td><td><code>/api/posts/:id</code></td><td>Fetch a single post</td><td>200</td><td>400, 404</td></tr>
+        <tr><td><b>POST</b></td><td><code>/api/posts</code></td><td>Create a new lost/found post (status always starts as <i>open</i>)</td><td>201</td><td>400</td></tr>
+        <tr><td><b>PUT</b></td><td><code>/api/posts/:id</code></td><td>Update a post: edit details or mark resolved / reopen</td><td>200</td><td>400, 404</td></tr>
+        <tr><td><b>DELETE</b></td><td><code>/api/posts/:id</code></td><td>Delete a post</td><td>200</td><td>400, 404</td></tr>
+      </table>
+      <div class="caption">Table 3: REST API routes</div>
 
-    const [posts, total] = await Promise.all([
-      Post.find(filter).sort({ createdAt: -1 })
-          .skip((page - 1) * limit).limit(limit).lean(),
-      Post.countDocuments(filter),
-    ]);
-    res.json({ success: true, data: posts,
-               pagination: { page, limit, total, pages: Math.ceil(total / limit) || 1 } });
-  } catch (err) { next(err); }
+      <p><b>Query parameters for <code>GET /api/posts</code>:</b> <code>category</code> (e.g. <code>electronics</code>), <code>type</code> (<code>lost</code>/<code>found</code>), <code>status</code> (<code>open</code>/<code>resolved</code>), <code>q</code> (case-insensitive search over title, description and location), <code>page</code> and <code>limit</code> (maximum 50).</p>
+
+      <h3>5.1 Route Implementation (key parts of <code>routes/posts.js</code>)</h3>
+<pre><code>router.get('/', async (req, res, next) =&gt; {                 <span class="cmt">// GET – list / filter / search</span>
+  const { category, type, status, q } = req.query;
+  const filter = {};
+  if (category &amp;&amp; category !== 'all') filter.category = category;
+  if (type &amp;&amp; type !== 'all')         filter.type = type;
+  if (status &amp;&amp; status !== 'all')     filter.status = status;
+  if (q) { const rx = new RegExp(escapeRegex(q.trim()), 'i');
+           filter.$or = [{ title: rx }, { description: rx }, { location: rx }]; }
+  const [posts, total] = await Promise.all([
+    Post.find(filter).sort({ createdAt: -1 }).skip((page - 1) * limit).limit(limit).lean(),
+    Post.countDocuments(filter) ]);
+  res.json({ success: true, data: posts, pagination: { page, limit, total, pages } });
 });
 
-// POST /api/posts – create
-router.post(&#39;/&#39;, async (req, res, next) =&gt; {
-  try {
-    const data = pick(req.body, EDITABLE_FIELDS);  // whitelist fields
-    delete data.status;                            // new posts are always &quot;open&quot;
-    const post = await Post.create(data);          // schema validation runs here
-    res.status(201).json({ success: true, data: post });
-  } catch (err) { next(err); }
+router.post('/', async (req, res, next) =&gt; {                <span class="cmt">// POST – create</span>
+  const data = pick(req.body, EDITABLE_FIELDS);  delete data.status;
+  const post = await Post.create(data);                      <span class="cmt">// schema validation runs here</span>
+  res.status(201).json({ success: true, data: post });
 });
 
-// PUT /api/posts/:id – update
-router.put(&#39;/:id&#39;, async (req, res, next) =&gt; {
-  try {
-    const post = await Post.findByIdAndUpdate(req.params.id,
-      pick(req.body, EDITABLE_FIELDS), { new: true, runValidators: true });
-    if (!post) return res.status(404).json({ success: false, message: &#39;Post not found&#39; });
-    res.json({ success: true, data: post });
-  } catch (err) { next(err); }
+router.put('/:id', async (req, res, next) =&gt; {              <span class="cmt">// PUT – update (404 if not found)</span>
+  const post = await Post.findByIdAndUpdate(req.params.id, pick(req.body, EDITABLE_FIELDS),
+                                            { new: true, runValidators: true });
+  res.json({ success: true, data: post });
 });
+router.delete('/:id', async (req, res, next) =&gt; {           <span class="cmt">// DELETE – remove (404 if not found)</span>
+  await Post.findByIdAndDelete(req.params.id);  res.json({ success: true, message: 'Post deleted' });
+});                              <span class="cmt">// try/catch → next(err) and 404 checks omitted for brevity</span></code></pre>
 
-// DELETE /api/posts/:id – delete
-router.delete(&#39;/:id&#39;, async (req, res, next) =&gt; {
-  try {
-    const post = await Post.findByIdAndDelete(req.params.id);
-    if (!post) return res.status(404).json({ success: false, message: &#39;Post not found&#39; });
-    res.json({ success: true, message: &#39;Post deleted&#39; });
-  } catch (err) { next(err); }
-});
-</code></pre>
-<h3>5.5 Middleware &amp; Error Handling</h3>
-<table>
-<thead>
-<tr>
-<th>Middleware</th>
-<th>Role</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><code>cors()</code></td>
-<td>Allows the React dev server (port 5173) to call the API</td>
-</tr>
-<tr>
-<td><code>express.json()</code></td>
-<td>Parses JSON request bodies into <code>req.body</code></td>
-</tr>
-<tr>
-<td><code>notFound</code></td>
-<td>Returns 404 JSON for unknown routes</td>
-</tr>
-<tr>
-<td><code>errorHandler</code></td>
-<td>Converts Mongoose <code>ValidationError</code> into <strong>400</strong> with field-wise messages, <code>CastError</code> (bad ObjectId) into <strong>400</strong>, and anything else into <strong>500</strong></td>
-</tr>
-</tbody></table>
-<p><strong>Security measures:</strong> fields are whitelisted (<code>pick</code>) so clients cannot overwrite <code>_id</code> or <code>createdAt</code>; user search text is escaped before it goes into a regex, which blocks regex injection; <code>limit</code> is capped at 50; and <code>runValidators: true</code> makes updates go through the same validation as new posts.</p>
-<div class="page-break"></div>
+      <h3>5.2 Validation, Error Handling and Security</h3>
+      <ul style="margin:0">
+          <li><b>errorHandler</b> middleware turns a Mongoose <code>ValidationError</code> into a 400 with per-field messages (e.g. <code>{"errors": {"title": "Title must be at least 3 characters", "contact.email": "Please enter a valid email"}}</code>), a <code>CastError</code> (bad id) into a 400, and anything else into a 500.</li>
+          <li><b>Field whitelisting</b> (<code>pick</code>) stops clients from overwriting <code>_id</code> or <code>createdAt</code>.</li>
+          <li>Search text is <b>regex-escaped</b>, <code>limit</code> is capped at 50, and <code>runValidators</code> applies the schema rules to updates as well.</li>
+        </ul>
+    </div>
+  </div>
+  <div class="page-no">5</div>
+</section>
 
-<h2>6. (c) React Component Structure &amp; State Management</h2>
-<h3>6.1 Component Tree</h3>
-<pre><code class="language-text">App                              ← view state (browse/report), toast, usePosts()
-├── Header                       ← navigation buttons
+<!-- ============================ PAGE 6 ============================ -->
+<section class="page">
+  <div class="frame">
+    <div class="running-head"><span>U21AD502 – Application Development</span><span>Campus Lost &amp; Found Portal</span></div>
+    <div class="content">
+      <h2>6. (c) React Component Structure &amp; State Management</h2>
+      <div class="two-col" style="grid-template-columns: 1.05fr 1fr; align-items:start">
+<pre style="margin:0"><code>App                  <span class="cmt">view, toast, usePosts()</span>
+├── Header           <span class="cmt">navigation</span>
 └── main
-    ├── PostForm                 ← (view = &quot;report&quot;) controlled form, local form state
-    │
-    └── ListingPage              ← (view = &quot;browse&quot;) receives posts + actions as props
-        ├── FilterBar            ← search box, type/status dropdowns, category chips
-        ├── PostList             ← maps posts → cards, shows empty state
-        │   └── PostCard  × N    ← one post: badges, details, Resolve / Delete buttons
-        └── Pagination controls
+    ├── PostForm     <span class="cmt">view = "report"</span>
+    │                <span class="cmt">local form state</span>
+    └── ListingPage  <span class="cmt">view = "browse"</span>
+        ├── FilterBar    <span class="cmt">search + filters</span>
+        ├── PostList
+        │   └── PostCard × N
+        └── Pagination
 
-usePosts()  (custom hook)        ← posts, filters, pagination, loading, error,
-                                   createPost / updatePost / deletePost
-postsApi    (service module)     ← fetch() wrapper for /api/posts
-</code></pre>
-<h3>6.2 Component Responsibilities</h3>
-<table>
-<thead>
-<tr>
-<th>Component</th>
-<th>Props In</th>
-<th>Local State</th>
-<th>Responsibility</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><code>App</code></td>
-<td>–</td>
-<td><code>view</code>, <code>toast</code></td>
-<td>Root; switches between form and listing; owns <code>usePosts()</code></td>
-</tr>
-<tr>
-<td><code>Header</code></td>
-<td><code>view</code>, <code>onChangeView</code></td>
-<td>–</td>
-<td>Navigation</td>
-</tr>
-<tr>
-<td><code>PostForm</code></td>
-<td><code>onSubmit</code>, <code>onCancel</code></td>
-<td><code>form</code>, <code>errors</code>, <code>submitting</code>, <code>serverError</code></td>
-<td>Controlled inputs, client validation, submit</td>
-</tr>
-<tr>
-<td><code>ListingPage</code></td>
-<td>posts, filters, pagination, actions</td>
-<td>–</td>
-<td>Arranges filters, list, pagination; handles resolve/delete</td>
-</tr>
-<tr>
-<td><code>FilterBar</code></td>
-<td><code>filters</code>, <code>onChange</code></td>
-<td>–</td>
-<td>Search &amp; category/type/status filters</td>
-</tr>
-<tr>
-<td><code>PostList</code></td>
-<td><code>posts</code>, <code>loading</code>, handlers</td>
-<td>–</td>
-<td>Renders grid of cards or empty message</td>
-</tr>
-<tr>
-<td><code>PostCard</code></td>
-<td><code>post</code>, <code>onResolve</code>, <code>onDelete</code></td>
-<td>–</td>
-<td>Displays a single post</td>
-</tr>
-</tbody></table>
-<h3>6.3 State Management Strategy</h3>
-<p>State is kept <strong>as close as possible to where it is used</strong> and lifted up only when siblings need to share it:</p>
-<table>
-<thead>
-<tr>
-<th>State</th>
-<th>Where it lives</th>
-<th>Why</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>Form field values, form errors, submitting flag</td>
-<td><code>PostForm</code> (<code>useState</code>)</td>
-<td>Only the form needs them</td>
-</tr>
-<tr>
-<td><code>posts</code>, <code>filters</code>, <code>pagination</code>, <code>loading</code>, <code>error</code></td>
-<td><code>usePosts</code> hook, called in <code>App</code></td>
-<td>Shared by the listing and by the form (a new post must appear in the list)</td>
-</tr>
-<tr>
-<td>Current view, toast message</td>
-<td><code>App</code></td>
-<td>Global UI state</td>
-</tr>
-</tbody></table>
-<p>The custom hook <strong><code>usePosts</code></strong> acts as a small store. It keeps all server data and API calls in one place, so the components stay presentational and are easy to test. For an app this size, <code>useState</code> plus a custom hook is enough; <strong>Redux or Context would be over-engineering</strong>. If the app grew, for example with login and user profiles, the hook could be moved into a React Context provider or replaced by a library like React Query without changing the components.</p>
-<h3>6.4 Posting Form (<code>PostForm.jsx</code>, key parts)</h3>
-<pre><code class="language-jsx">export default function PostForm({ onSubmit, onCancel }) {
-  const [form, setForm]         = useState(EMPTY_FORM);   // controlled inputs
-  const [errors, setErrors]     = useState({});
-  const [submitting, setSubmitting] = useState(false);
+usePosts()  <span class="cmt">custom hook = data store</span>
+postsApi    <span class="cmt">fetch wrapper for /api</span></code></pre>
+        <div>
+          <p style="margin-top:0">The UI is split into small components with a single responsibility each. <b>App</b> is the root: it switches between the posting form and the listing, and owns the shared post data by calling the <b>usePosts</b> custom hook. Data flows <b>down as props</b> and user actions flow <b>up as callbacks</b>, React's one-way data flow.</p>
+          <p>The listing and the form never call <code>fetch</code> themselves. All HTTP calls go through <b>postsApi</b>, and all server state lives in <b>usePosts</b>, which keeps the components purely presentational. <code>useState</code> plus a custom hook is enough for an application this size (<b>Redux would be over-engineering</b>); if the app grows, the hook can move into a React Context provider without changing the components.</p>
+        </div>
+      </div>
+      <div class="caption">Fig. 3: React component tree</div>
 
-  const handleChange = (e) =&gt; {
-    const { name, value } = e.target;
-    setForm(prev =&gt; ({ ...prev, [name]: value }));
-  };
+      <table>
+        <tr><th style="width:15%">Component</th><th style="width:30%">Local state</th><th>Responsibility</th></tr>
+        <tr><td>App</td><td><code>view</code>, <code>toast</code></td><td>Root; switches views; calls <code>usePosts()</code>; shows notifications</td></tr>
+        <tr><td>Header</td><td>–</td><td>"Browse Items" / "Report an Item" navigation</td></tr>
+        <tr><td>PostForm</td><td><code>form</code>, <code>errors</code>, <code>submitting</code>, <code>serverError</code></td><td>Controlled inputs, client-side validation, builds the JSON payload, shows server errors</td></tr>
+        <tr><td>ListingPage</td><td>–</td><td>Lays out filters, list and pagination; handles resolve/delete</td></tr>
+        <tr><td>FilterBar</td><td>–</td><td>Search box, type/status dropdowns, category chips</td></tr>
+        <tr><td>PostList</td><td>–</td><td>Renders the grid of cards or an empty-state message</td></tr>
+        <tr><td>PostCard</td><td>–</td><td>Shows one post with LOST/FOUND and category badges</td></tr>
+      </table>
+      <div class="caption">Table 4: Component responsibilities</div>
 
-  const handleSubmit = async (e) =&gt; {
-    e.preventDefault();
-    const clientErrors = validate(form);           // instant feedback
-    setErrors(clientErrors);
-    if (Object.keys(clientErrors).length) return;
-
-    setSubmitting(true);
-    try {
-      await onSubmit(toPayload(form));            // → App → usePosts.createPost
-      setForm(EMPTY_FORM);
-    } catch (err) {
-      setErrors(mapServerErrors(err.fieldErrors)); // show server validation errors
-    } finally {
-      setSubmitting(false);
-    }
-  };
-  ...
-}
-</code></pre>
-<h3>6.5 Listing State (<code>usePosts.js</code>, key parts)</h3>
-<pre><code class="language-jsx">export function usePosts() {
+      <h3>6.1 State Management Strategy</h3>
+      <p>State is kept <b>as close as possible to where it is used</b>, and is lifted up only when siblings need to share it:</p>
+      <table>
+        <tr><th style="width:36%">State</th><th style="width:24%">Lives in</th><th>Reason</th></tr>
+        <tr><td>Form fields, validation errors, submitting flag</td><td><code>PostForm</code> (useState)</td><td>Only the form needs them; resetting the form doesn't affect the rest of the app</td></tr>
+        <tr><td><code>posts</code>, <code>filters</code>, <code>pagination</code>, <code>loading</code>, <code>error</code></td><td><code>usePosts</code> hook in App</td><td>Shared: a post created in the form must appear in the listing</td></tr>
+        <tr><td>Current view, toast message</td><td><code>App</code> (useState)</td><td>Global UI state</td></tr>
+      </table>
+<pre><code>export function usePosts() {
   const [posts, setPosts]     = useState([]);
-  const [filters, setFilters] = useState({ category: &#39;all&#39;, type: &#39;all&#39;,
-                                           status: &#39;open&#39;, q: &#39;&#39; });
-  const [loading, setLoading] = useState(false);
-
+  const [filters, setFilters] = useState({ category: 'all', type: 'all', status: 'open', q: '' });
   const fetchPosts = useCallback(async () =&gt; {
-    setLoading(true);
-    const res = await postsApi.list({ ...filters, page });
-    setPosts(res.data);
-    setLoading(false);
-  }, [filters, page]);
+    setPosts((await postsApi.list({ ...filters, page })).data); }, [filters, page]);
+  useEffect(() =&gt; { const t = setTimeout(fetchPosts, 300);   <span class="cmt">// debounce search typing</span>
+                    return () =&gt; clearTimeout(t); }, [fetchPosts]);
+  const createPost = async (data) =&gt; { const res = await postsApi.create(data);
+    setPosts(prev =&gt; [res.data, ...prev]); fetchPosts(); };  <span class="cmt">// show instantly, then re-sync</span>
+  return { posts, filters, updateFilters, createPost, updatePost, deletePost, ... };
+}</code></pre>
+    </div>
+  </div>
+  <div class="page-no">6</div>
+</section>
 
-  // re-fetch when filters change (debounced 300 ms for the search box)
-  useEffect(() =&gt; {
-    const t = setTimeout(fetchPosts, 300);
-    return () =&gt; clearTimeout(t);
-  }, [fetchPosts]);
+<!-- ============================ PAGE 7 ============================ -->
+<section class="page">
+  <div class="frame">
+    <div class="running-head"><span>U21AD502 – Application Development</span><span>Campus Lost &amp; Found Portal</span></div>
+    <div class="content">
+      <h2>7. (d) Complete Data Flow</h2>
+      <p>Fig. 4 traces one post from the moment the user clicks <b>Submit</b> until it appears in the listing.</p>
 
-  const createPost = async (data) =&gt; {
-    const res = await postsApi.create(data);
-    setPosts(prev =&gt; [res.data, ...prev]);  // show immediately
-    fetchPosts();                           // re-sync with server
-  };
-  ...
-}
-</code></pre>
-<div class="page-break"></div>
+      <svg viewBox="0 0 720 456" width="100%" style="display:block;font-family:Arial,Helvetica,sans-serif;font-size:10.5px">
+        <defs>
+          <marker id="ar" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#1f3a93"/></marker>
+          <marker id="arg" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#188038"/></marker>
+        </defs>
+        <!-- lanes -->
+        <g text-anchor="middle" font-weight="bold" font-size="10.5">
+          <rect x="10"  y="4" width="100" height="34" rx="4" fill="#e6ebf5" stroke="#1f3a93"/><text x="60"  y="25">User</text>
+          <rect x="140" y="4" width="130" height="34" rx="4" fill="#e6ebf5" stroke="#1f3a93"/><text x="205" y="18">React</text><text x="205" y="31" font-weight="normal" font-size="9">PostForm · usePosts</text>
+          <rect x="315" y="4" width="120" height="34" rx="4" fill="#e6ebf5" stroke="#1f3a93"/><text x="375" y="18">Express API</text><text x="375" y="31" font-weight="normal" font-size="9">routes/posts.js</text>
+          <rect x="480" y="4" width="100" height="34" rx="4" fill="#e6ebf5" stroke="#1f3a93"/><text x="530" y="25">Mongoose</text>
+          <rect x="615" y="4" width="95"  height="34" rx="4" fill="#e6ebf5" stroke="#1f3a93"/><text x="662" y="25">MongoDB</text>
+        </g>
+        <g stroke="#999" stroke-dasharray="4 3">
+          <line x1="60" y1="38" x2="60" y2="448"/><line x1="205" y1="38" x2="205" y2="448"/>
+          <line x1="375" y1="38" x2="375" y2="448"/><line x1="530" y1="38" x2="530" y2="448"/><line x1="662" y1="38" x2="662" y2="448"/>
+        </g>
+        <!-- messages: y step 29 -->
+        <g stroke="#1f3a93" stroke-width="1.3" fill="none" marker-end="url(#ar)">
+          <line x1="60" y1="62" x2="203" y2="62"/>
+          <path d="M205,86 h30 v12 h-28"/>
+          <line x1="205" y1="120" x2="373" y2="120"/>
+          <path d="M375,144 h30 v12 h-28"/>
+          <line x1="375" y1="178" x2="528" y2="178"/>
+          <path d="M530,202 h30 v12 h-28"/>
+          <line x1="530" y1="236" x2="660" y2="236"/>
+        </g>
+        <g stroke="#188038" stroke-width="1.3" fill="none" stroke-dasharray="5 3" marker-end="url(#arg)">
+          <line x1="662" y1="262" x2="532" y2="262"/>
+          <line x1="530" y1="288" x2="377" y2="288"/>
+          <line x1="375" y1="314" x2="207" y2="314"/>
+          <line x1="205" y1="394" x2="373" y2="394" stroke="#1f3a93" stroke-dasharray="none" marker-end="url(#ar)"/>
+          <line x1="375" y1="414" x2="207" y2="414"/>
+          <line x1="205" y1="438" x2="62" y2="438"/>
+        </g>
+        <path d="M205,338 h30 v12 h-28" stroke="#1f3a93" stroke-width="1.3" fill="none" marker-end="url(#ar)"/>
+        <path d="M205,362 h30 v12 h-28" stroke="#1f3a93" stroke-width="1.3" fill="none" marker-end="url(#ar)"/>
+        <!-- labels -->
+        <g fill="#111">
+          <text x="66"  y="57">① fill form, click Submit</text>
+          <text x="240" y="93">② validate(form), toPayload()</text>
+          <text x="212" y="115">③ POST /api/posts  (JSON body)</text>
+          <text x="410" y="151">④ cors → express.json → pick()</text>
+          <text x="382" y="173">⑤ Post.create(data)</text>
+          <text x="565" y="209">⑥ schema validation</text>
+          <text x="538" y="231">⑦ insertOne(doc)</text>
+          <text x="542" y="257">⑧ ack + _id</text>
+          <text x="384" y="283">⑨ saved document</text>
+          <text x="214" y="309">⑩ 201 Created { success, data }</text>
+          <text x="240" y="345">⑪ setPosts([newPost, ...prev])</text>
+          <text x="240" y="369">⑫ setView('browse'), toast "live!"</text>
+          <text x="214" y="389">⑬ GET /api/posts (re-sync)</text>
+          <text x="214" y="428" font-size="9.5">⑭ 200 OK { data: [...] } via Post.find()</text>
+          <text x="66"  y="433" font-size="9.5">⑮ re-render → post visible</text>
+        </g>
+      </svg>
+      <div class="caption">Fig. 4: Sequence diagram for creating a post (solid = request, dashed = response)</div>
 
-<h2>7. (d) Complete Data Flow</h2>
-<h3>7.1 Creating a Post: Sequence Diagram</h3>
-<pre><code class="language-text"> USER         PostForm           App / usePosts        postsApi        Express API        Mongoose/MongoDB
-  │               │                    │                  │                  │                     │
-  │ fills form    │                    │                  │                  │                     │
-  │──────────────▶│ setForm() on       │                  │                  │                     │
-  │               │ every keystroke    │                  │                  │                     │
-  │ clicks Submit │                    │                  │                  │                     │
-  │──────────────▶│ validate(form)     │                  │                  │                     │
-  │               │ toPayload(form)    │                  │                  │                     │
-  │               │── onSubmit(data) ─▶│ createPost(data) │                  │                     │
-  │               │                    │─ create(data) ──▶│                  │                     │
-  │               │                    │                  │ POST /api/posts  │                     │
-  │               │                    │                  │ JSON body ──────▶│ cors, express.json  │
-  │               │                    │                  │                  │ pick() whitelist    │
-  │               │                    │                  │                  │── Post.create() ───▶│ validate
-  │               │                    │                  │                  │                     │ insertOne
-  │               │                    │                  │                  │◀── saved doc ───────│ +_id,dates
-  │               │                    │                  │◀── 201 + JSON ───│                     │
-  │               │                    │◀── res.data ─────│                  │                     │
-  │               │                    │ setPosts([new,…])│                  │                     │
-  │               │                    │ fetchPosts() ────┼─ GET /api/posts ▶│── Post.find() ─────▶│
-  │               │                    │◀─────────────────┼──── 200 JSON ────│◀────────────────────│
-  │               │◀─ resolved ────────│ setView(&#39;browse&#39;)│                  │                     │
-  │ sees new post │                    │ toast &quot;live!&quot;    │                  │                     │
-  │◀──────────────┼──── React re-renders ListingPage → PostList → PostCard   │                     │
-</code></pre>
-<h3>7.2 Step-by-Step Explanation</h3>
-<p><strong>Stage 1: Frontend (React)</strong></p>
-<ol>
-<li>The user clicks <strong>&quot;+ Report an Item&quot;</strong>. <code>App</code> sets <code>view = &#39;report&#39;</code> and renders <code>PostForm</code>.</li>
-<li>Every input is a <strong>controlled component</strong>: its <code>value</code> comes from <code>form</code> state, and each keystroke calls <code>handleChange</code>, which updates the state with <code>setForm</code>.</li>
-<li>On <strong>Submit</strong>, <code>handleSubmit</code> calls <code>e.preventDefault()</code> to stop a page reload, then runs <code>validate(form)</code>. If a field is invalid, the errors show immediately and no request is sent.</li>
-<li><code>toPayload(form)</code> turns the flat form fields into the nested JSON the API expects (e.g. <code>contactName</code> → <code>contact.name</code>).</li>
-<li><code>PostForm</code> calls <code>onSubmit(payload)</code>, which runs <code>App.handleCreate</code>, which calls <code>usePosts.createPost</code>.</li>
-<li><code>postsApi.create()</code> sends the request with <code>fetch(&#39;/api/posts&#39;, { method: &#39;POST&#39;, headers: {&#39;Content-Type&#39;: &#39;application/json&#39;}, body: JSON.stringify(payload) })</code>.</li>
-</ol>
-<p><strong>Stage 2: Backend (Node.js / Express)</strong></p>
-<ol start="7">
-<li>The request reaches Express on port 5050. In development, Vite&#39;s proxy forwards <code>/api</code> from 5173 to 5050.</li>
-<li>The <strong><code>cors</code></strong> middleware checks the origin, and <strong><code>express.json()</code></strong> parses the body into <code>req.body</code>.</li>
-<li>The router sends <code>POST /api/posts</code> to the create handler. The handler <strong>whitelists</strong> fields with <code>pick()</code> and removes <code>status</code>, so every new post starts as <code>open</code>.</li>
-<li>The handler calls <code>Post.create(data)</code>.</li>
-</ol>
-<p><strong>Stage 3: Database (Mongoose → MongoDB)</strong></p>
-<ol start="11">
-<li><strong>Mongoose validates</strong> the document against the schema: required fields, enums, lengths, email format, and no future dates. If validation fails, it throws a <code>ValidationError</code>, which the <code>errorHandler</code> turns into a <strong>400</strong> response listing the errors per field. The form then shows those messages under the matching inputs.</li>
-<li>If validation passes, Mongoose applies the defaults (<code>status: &#39;open&#39;</code>) and the timestamps (<code>createdAt</code>, <code>updatedAt</code>), and MongoDB runs <strong><code>insertOne</code></strong>, which generates the <code>_id</code>. MongoDB also updates the collection&#39;s indexes.</li>
-<li>The saved document comes back to Express, which replies <strong><code>201 Created</code></strong> with <code>{ success: true, data: post }</code>.</li>
-</ol>
-<p><strong>Stage 4: Back to the Frontend</strong></p>
-<ol start="14">
-<li><code>postsApi</code> sees <code>res.ok</code> and returns the parsed JSON to <code>createPost</code>.</li>
-<li><code>createPost</code> calls <code>setPosts(prev =&gt; [newPost, ...prev])</code>, an <strong>optimistic prepend</strong> that shows the post without waiting for another request. It then calls <code>fetchPosts()</code> to re-sync the list, counts and pagination with the database.</li>
-<li><code>App</code> switches <code>view</code> back to <code>&#39;browse&#39;</code> and shows the toast <strong>&quot;Your post is live!&quot;</strong>.</li>
-<li>Because the <code>posts</code> state changed, <strong>React re-renders</strong> <code>ListingPage</code>, then <code>PostList</code>, then a new <code>PostCard</code>, and the post appears at the top of the listing.</li>
-<li>Any other student who opens or refreshes the listing gets the new post from <code>GET /api/posts</code>, since it is now stored in MongoDB.</li>
-</ol>
-<h3>7.3 Search / Filter Flow</h3>
-<pre><code class="language-text">User clicks &quot;Books&quot; chip
-  → FilterBar calls onChange({ category: &#39;books&#39; })
-  → usePosts.updateFilters() → setFilters({...filters, category:&#39;books&#39;}), setPage(1)
-  → useEffect detects the new filters → waits 300 ms (debounce) → fetchPosts()
-  → GET /api/posts?category=books&amp;status=open&amp;page=1
-  → Express builds { category: &#39;books&#39;, status: &#39;open&#39; }
-  → Post.find(filter).sort({createdAt:-1})   (uses the compound index)
-  → 200 JSON { data: [...], pagination }
-  → setPosts(data) → React re-renders the list
-</code></pre>
-<p>The same flow handles the keyword search box. The 300 ms debounce means typing &quot;calculator&quot; sends <strong>one</strong> request instead of ten.</p>
-<h3>7.4 Update and Delete Flow</h3>
-<ul>
-<li><strong>Mark resolved:</strong> <code>PostCard</code> → <code>ListingPage.handleResolve</code> → <code>updatePost(id, {status:&#39;resolved&#39;})</code> → <strong><code>PUT /api/posts/:id</code></strong> → <code>findByIdAndUpdate(..., {runValidators:true})</code> → the updated document is returned → the card is replaced in state.</li>
-<li><strong>Delete:</strong> a confirmation dialog appears → <code>deletePost(id)</code> → <strong><code>DELETE /api/posts/:id</code></strong> → <code>findByIdAndDelete</code> → the post is removed from state with <code>posts.filter(...)</code>.</li>
-</ul>
-<div class="page-break"></div>
+      <h3>7.1 Step-by-Step Explanation</h3>
+      <p><b>Frontend (React).</b> The user opens <i>Report an Item</i>, and <code>App</code> renders <code>PostForm</code>. Each input is a <b>controlled component</b>: its value comes from the <code>form</code> state and every keystroke calls <code>setForm</code>. On Submit, <code>handleSubmit</code> calls <code>e.preventDefault()</code> and runs <code>validate(form)</code>; if a field is invalid, the errors are shown and no request is sent. <code>toPayload()</code> turns the flat form fields into the nested JSON the API expects (for example, <code>contactName</code> → <code>contact.name</code>), then <code>usePosts.createPost</code> calls <code>postsApi.create()</code>, which sends <code>fetch('/api/posts', {method:'POST', body: JSON.stringify(data)})</code>.</p>
+      <p><b>Backend (Express).</b> The request reaches Express on port 5050. The <code>cors</code> middleware checks the origin and <code>express.json()</code> parses the body into <code>req.body</code>. The router matches <code>POST /api/posts</code>, whitelists the allowed fields, removes <code>status</code> so every new post starts <i>open</i>, and calls <code>Post.create()</code>.</p>
+      <p><b>Database (Mongoose → MongoDB).</b> Mongoose validates the document against the schema: required fields, enums, lengths, email format and no future dates. If it fails, the error handler returns <b>400</b> with messages per field, which <code>PostForm</code> shows under the matching inputs. If it passes, Mongoose applies the defaults and timestamps, MongoDB runs <code>insertOne</code> (generating the <code>_id</code> and updating the indexes), and Express replies <b>201 Created</b> with the saved document.</p>
+      <p><b>Back to the frontend.</b> <code>createPost</code> prepends the new post to the <code>posts</code> state so it appears immediately, then calls <code>fetchPosts()</code> to re-sync the counts and pagination with the database. <code>App</code> switches back to the listing and shows "Your post is live!". Because the state changed, React re-renders <code>ListingPage → PostList → PostCard</code>, and the post appears at the top. <b>Search</b> follows the same path: changing a filter updates the <code>filters</code> state, <code>useEffect</code> waits 300 ms (debounce) and calls <code>GET /api/posts?category=…&amp;q=…</code>, and the returned list replaces <code>posts</code>. <b>Resolve</b> and <b>Delete</b> call <code>PUT</code> and <code>DELETE /api/posts/:id</code> and update the state the same way.</p>
+    </div>
+  </div>
+  <div class="page-no">7</div>
+</section>
 
-<h2>8. Testing</h2>
-<p>The API was tested with <code>curl</code> against a running server with sample data loaded. Actual results:</p>
-<table>
-<thead>
-<tr>
-<th>#</th>
-<th>Test Case</th>
-<th>Request</th>
-<th>Expected</th>
-<th>Result</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>1</td>
-<td>Filter by category</td>
-<td><code>GET /posts?category=electronics</code></td>
-<td>2 electronics posts</td>
-<td>✅ Calculator, Charger returned</td>
-</tr>
-<tr>
-<td>2</td>
-<td>Keyword search (partial)</td>
-<td><code>GET /posts?q=calc</code></td>
-<td>Calculator post</td>
-<td>✅ <code>[&#39;Casio fx-991ES Calculator&#39;]</code></td>
-</tr>
-<tr>
-<td>3</td>
-<td>Create valid post</td>
-<td><code>POST /posts</code> (valid body)</td>
-<td>201, <code>status: &quot;open&quot;</code></td>
-<td>✅ 201, status forced to <code>open</code> even though <code>resolved</code> was sent</td>
-</tr>
-<tr>
-<td>4</td>
-<td>Create invalid post</td>
-<td><code>POST /posts</code> (bad type, short title, bad email…)</td>
-<td>400 with field errors</td>
-<td>✅ 400, 8 field-level messages</td>
-</tr>
-<tr>
-<td>5</td>
-<td>Mark resolved</td>
-<td><code>PUT /posts/:id {status:&quot;resolved&quot;}</code></td>
-<td>Updated doc</td>
-<td>✅ <code>status: &quot;resolved&quot;</code></td>
-</tr>
-<tr>
-<td>6</td>
-<td>Category counts</td>
-<td><code>GET /posts/categories</code></td>
-<td>Counts per category</td>
-<td>✅ electronics 2, books 1, id-cards 1, keys 1</td>
-</tr>
-<tr>
-<td>7</td>
-<td>Delete post</td>
-<td><code>DELETE /posts/:id</code></td>
-<td>200</td>
-<td>✅ &quot;Post deleted&quot;</td>
-</tr>
-<tr>
-<td>8</td>
-<td>Get deleted post</td>
-<td><code>GET /posts/:id</code></td>
-<td>404</td>
-<td>✅ 404 &quot;Post not found&quot;</td>
-</tr>
-<tr>
-<td>9</td>
-<td>Invalid ObjectId</td>
-<td><code>GET /posts/abc</code></td>
-<td>400</td>
-<td>✅ 400 &quot;Invalid _id: abc&quot;</td>
-</tr>
-<tr>
-<td>10</td>
-<td>Frontend build</td>
-<td><code>vite build</code></td>
-<td>No errors</td>
-<td>✅ Built successfully</td>
-</tr>
-</tbody></table>
-<h2>9. Output Screenshots</h2>
-<h3>9.1 Listing Page with Search and Category Filters</h3>
-<p><img src="screenshots/listing.png" alt="Listing page"></p>
-<h3>9.2 Posting Form</h3>
-<p><img src="screenshots/form.png" alt="Posting form"></p>
-<div class="page-break"></div>
+<!-- ============================ PAGE 8 ============================ -->
+<section class="page">
+  <div class="frame">
+    <div class="running-head"><span>U21AD502 – Application Development</span><span>Campus Lost &amp; Found Portal</span></div>
+    <div class="content">
+      <h2>8. Output Screenshots</h2>
+      <p>The screenshots below were captured from the running application, backed by a local MongoDB database with sample data.</p>
+      <div class="shots">
+        <figure class="fig"><img src="screenshots/01-listing.png"><figcaption>Fig. 5: Listing page – all open posts, newest first</figcaption></figure>
+        <figure class="fig"><img src="screenshots/02-category-filter.png"><figcaption>Fig. 6: Filtered by category "Electronics"</figcaption></figure>
+        <figure class="fig"><img src="screenshots/03-search.png"><figcaption>Fig. 7: Keyword search for "library"</figcaption></figure>
+        <figure class="fig"><img src="screenshots/07-resolved.png"><figcaption>Fig. 8: Status filter showing resolved posts</figcaption></figure>
+        <figure class="fig"><img src="screenshots/04-form-validation.png"><figcaption>Fig. 9: Posting form – client-side validation errors</figcaption></figure>
+        <figure class="fig"><img src="screenshots/05-form-filled.png"><figcaption>Fig. 10: Posting form filled in for a found item</figcaption></figure>
+      </div>
+    </div>
+  </div>
+  <div class="page-no">8</div>
+</section>
 
-<h2>10. Project Structure &amp; How to Run</h2>
-<pre><code class="language-text">lost-and-found-portal/
+<!-- ============================ PAGE 9 ============================ -->
+<section class="page">
+  <div class="frame">
+    <div class="running-head"><span>U21AD502 – Application Development</span><span>Campus Lost &amp; Found Portal</span></div>
+    <div class="content">
+      <div style="display:grid;grid-template-columns: 1fr 0.4fr; gap: 5mm; align-items:start">
+        <div>
+          <figure class="fig"><img src="screenshots/06-post-created.png"><figcaption>Fig. 11: After submitting, the new post appears at the top with a confirmation toast</figcaption></figure>
+          <figure class="fig" style="margin-top:3.5mm"><img src="screenshots/09-api-response.png" style="height:48mm;object-fit:cover;object-position:top"><figcaption>Fig. 12: JSON response of <code>GET /api/posts?category=electronics</code></figcaption></figure>
+        </div>
+        <figure class="fig"><img src="screenshots/08-mobile.png"><figcaption>Fig. 13: Responsive layout on a mobile screen</figcaption></figure>
+      </div>
+
+      <h2>9. Testing</h2>
+      <p>The API was tested with <code>curl</code>, and the UI flows were exercised in the browser. All test cases passed.</p>
+      <table>
+        <tr><th style="width:4%">#</th><th style="width:22%">Test case</th><th style="width:30%">Input</th><th>Expected result</th><th style="width:9%">Status</th></tr>
+        <tr><td>1</td><td>Filter by category</td><td><code>GET /posts?category=electronics</code></td><td>Only electronics posts returned</td><td>Pass</td></tr>
+        <tr><td>2</td><td>Partial keyword search</td><td><code>GET /posts?q=calc</code></td><td>"Casio fx-991ES Calculator" returned</td><td>Pass</td></tr>
+        <tr><td>3</td><td>Create valid post</td><td><code>POST /posts</code> with <code>status:"resolved"</code></td><td>201; status forced to "open"</td><td>Pass</td></tr>
+        <tr><td>4</td><td>Create invalid post</td><td>Bad type, short title, bad email</td><td>400 with 8 field-level messages</td><td>Pass</td></tr>
+        <tr><td>5</td><td>Mark resolved</td><td><code>PUT /posts/:id {status:"resolved"}</code></td><td>200; updated document returned</td><td>Pass</td></tr>
+        <tr><td>6</td><td>Delete / fetch deleted</td><td><code>DELETE</code> then <code>GET /posts/:id</code></td><td>200 "Post deleted", then 404</td><td>Pass</td></tr>
+        <tr><td>7</td><td>Form validation (UI)</td><td>Submit empty form</td><td>Errors under each required field; no request sent</td><td>Pass</td></tr>
+        <tr><td>8</td><td>End-to-end post (UI)</td><td>Fill form, Submit</td><td>Post at top of listing, toast shown, stored in MongoDB</td><td>Pass</td></tr>
+      </table>
+      <div class="caption">Table 5: Test cases and results</div>
+    </div>
+  </div>
+  <div class="page-no">9</div>
+</section>
+
+<!-- ============================ PAGE 10 ============================ -->
+<section class="page">
+  <div class="frame">
+    <div class="running-head"><span>U21AD502 – Application Development</span><span>Campus Lost &amp; Found Portal</span></div>
+    <div class="content">
+      <h2>10. Project Structure &amp; Execution</h2>
+      <div class="two-col" style="grid-template-columns: 1.1fr 1fr">
+<pre style="margin:0"><code>lost-and-found-portal/
 ├── backend/
-│   ├── models/Post.js              # Mongoose schema + indexes
-│   ├── routes/posts.js             # GET / POST / PUT / DELETE routes
-│   ├── middleware/errorHandler.js  # 404 + validation error handling
-│   ├── server.js                   # Express app + MongoDB connection
-│   ├── seed.js                     # Sample data
-│   └── .env.example
-├── frontend/
-│   ├── src/
-│   │   ├── api/postsApi.js         # fetch wrapper
-│   │   ├── hooks/usePosts.js       # state management hook
-│   │   ├── components/
-│   │   │   ├── Header.jsx
-│   │   │   ├── PostForm.jsx
-│   │   │   ├── ListingPage.jsx
-│   │   │   ├── FilterBar.jsx
-│   │   │   ├── PostList.jsx
-│   │   │   └── PostCard.jsx
-│   │   ├── constants.js            # category list
-│   │   ├── App.jsx
-│   │   └── main.jsx
-│   └── vite.config.js              # dev proxy /api → :5050
-└── report/REPORT.md
-</code></pre>
-<p><strong>Steps to run:</strong></p>
-<pre><code class="language-bash"># 1. Start MongoDB (local install or MongoDB Atlas connection string in .env)
-# 2. Backend
+│   ├── models/Post.js        <span class="cmt">schema + indexes</span>
+│   ├── routes/posts.js       <span class="cmt">CRUD routes</span>
+│   ├── middleware/errorHandler.js
+│   ├── server.js             <span class="cmt">app + DB connect</span>
+│   └── seed.js               <span class="cmt">sample data</span>
+├── frontend/src/
+│   ├── api/postsApi.js       <span class="cmt">fetch wrapper</span>
+│   ├── hooks/usePosts.js     <span class="cmt">state hook</span>
+│   ├── components/           <span class="cmt">6 components</span>
+│   └── App.jsx, main.jsx
+└── report/                   <span class="cmt">this report</span></code></pre>
+<pre style="margin:0"><code><span class="cmt"># 1. Backend → http://localhost:5050</span>
 cd backend
 cp .env.example .env
 npm install
-npm run seed        # optional sample data
-npm start           # → http://localhost:5050
+npm run seed     <span class="cmt"># sample posts</span>
+npm start
 
-# 3. Frontend (new terminal)
+<span class="cmt"># 2. Frontend → http://localhost:5173</span>
 cd frontend
 npm install
-npm run dev         # → http://localhost:5173
-</code></pre>
-<h2>11. Future Enhancements</h2>
-<ol>
-<li><strong>Authentication:</strong> log in with the college email (JWT or Google SSO), so that only the author of a post can edit or delete it.</li>
-<li><strong>Image upload:</strong> upload photos directly (Multer + Cloudinary/S3) instead of pasting an image URL.</li>
-<li><strong>Smart matching:</strong> when a &quot;found&quot; post is created, automatically suggest &quot;lost&quot; posts with the same category and similar keywords, and notify their owners by email.</li>
-<li><strong>Admin panel:</strong> let the security office moderate posts and archive old resolved ones.</li>
-<li><strong>Auto-expiry:</strong> use a MongoDB TTL index to archive posts older than one semester.</li>
-<li><strong>Real-time updates:</strong> use Socket.IO so new posts appear without a refresh.</li>
-</ol>
-<h2>12. Conclusion</h2>
-<p>The Campus Lost &amp; Found Portal meets all four requirements:</p>
-<ul>
-<li><strong>(a)</strong> A single, validated and indexed MongoDB <code>posts</code> collection, with an embedded contact sub-document and enum-based categories.</li>
-<li><strong>(b)</strong> A RESTful Express API with GET (list, filter, search, paginate, get one), POST, PUT and DELETE routes, plus proper status codes and central error handling.</li>
-<li><strong>(c)</strong> A modular React component tree. Form state is local to <code>PostForm</code>, and shared post data lives in the <code>usePosts</code> custom hook.</li>
-<li><strong>(d)</strong> A clear end-to-end data flow: a controlled form, then <code>fetch</code>, then Express middleware, then Mongoose validation, then MongoDB insert, then a JSON response, then a React state update and re-render.</li>
-</ul>
-<p>The project shows how the MERN stack&#39;s single language (JavaScript) and single data format (JSON) across all tiers make it quick to build a practical tool that solves a real campus problem.</p>
-</body></html>
+npm run dev</code></pre>
+      </div>
+      <p style="margin-top:2mm">Source code: <b>https://github.com/nakultt/lost-and-found-portal</b></p>
+
+      <h2>11. Future Enhancements</h2>
+      <ol>
+        <li><b>Authentication:</b> college-email login (JWT or Google SSO), so that only the author of a post can edit or delete it.</li>
+        <li><b>Image upload:</b> direct photo upload using Multer with Cloudinary or S3, instead of pasting an image URL.</li>
+        <li><b>Smart matching:</b> when a "found" item is posted, suggest "lost" posts with the same category and similar keywords, and email their owners.</li>
+        <li><b>Admin panel:</b> let the security office moderate posts and archive resolved ones; a TTL index could auto-expire old posts.</li>
+        <li><b>Real-time updates:</b> use Socket.IO so new posts appear without refreshing the page.</li>
+      </ol>
+
+      <h2>12. Conclusion</h2>
+      <p>The Campus Lost &amp; Found Portal meets all four requirements of the problem statement. <b>(a)</b> A single, validated and indexed MongoDB <code>posts</code> collection, with an embedded contact sub-document and enum-based categories, stores all lost and found items efficiently. <b>(b)</b> A RESTful Express API provides GET (list, filter, search, paginate, fetch one), POST, PUT and DELETE routes, with proper HTTP status codes and central error handling. <b>(c)</b> A modular React component tree keeps form state local to <code>PostForm</code> and shared post data in the <code>usePosts</code> custom hook, following one-way data flow. <b>(d)</b> The end-to-end data flow runs from a controlled form, through <code>fetch</code>, Express middleware, Mongoose validation and a MongoDB insert, back to a JSON response and a React re-render.</p>
+      <p>The project shows how the MERN stack's single language (JavaScript) and single data format (JSON) across every tier make it quick to build a practical tool that solves a real campus problem.</p>
+
+      <h2>13. References</h2>
+      <ol style="font-size:9.8pt">
+        <li>MongoDB Documentation – Data Modeling and Indexes. https://www.mongodb.com/docs/manual/</li>
+        <li>Mongoose Documentation – Schemas, Validation and Models. https://mongoosejs.com/docs/</li>
+        <li>Express.js Documentation – Routing and Error Handling. https://expressjs.com/</li>
+        <li>React Documentation – Managing State and Reusing Logic with Custom Hooks. https://react.dev/learn</li>
+        <li>Vite Documentation – Server Options (proxy). https://vitejs.dev/config/</li>
+      </ol>
+    </div>
+  </div>
+  <div class="page-no">10</div>
+</section>
+
+</body>
+</html>
