@@ -6,6 +6,39 @@ Students can post items they've lost or found, browse all posts, and search by c
 - **Backend:** Node.js + Express + Mongoose (`backend/`)
 - **Frontend:** React + Vite (`frontend/`)
 
+## Features
+
+- Post **lost** or **found** items with a title, description, category, location, date, an optional image URL and contact details
+- Browse all posts, filter by category, type or status, and search by keyword, with pagination
+- See category counts of open posts
+- Mark a post **resolved** once the item is returned, edit it, or delete it
+- A seed script loads realistic sample data for demos
+
+## Architecture
+
+```mermaid
+flowchart LR
+    subgraph FE["frontend/ — React + Vite"]
+        APP[App.jsx] --> LP[ListingPage]
+        LP --> FB[FilterBar<br/>category · type · status · search]
+        LP --> PL[PostList → PostCard]
+        APP --> PF[PostForm<br/>create / edit]
+        LP & PF --> HK[hooks/usePosts]
+        HK --> API[api/postsApi.js]
+    end
+
+    API -->|REST /api/posts| SV
+
+    subgraph SV["backend/ — Express"]
+        S[server.js<br/>CORS · JSON · errorHandler]
+        R[routes/posts.js<br/>list · categories · get · create · update · delete]
+        M[models/Post.js<br/>type · title · description · category ·<br/>location · date · imageUrl · contact · status]
+        S --> R --> M
+    end
+
+    M --> DB[(MongoDB<br/>indexes: category + type + createdAt,<br/>text search)]
+```
+
 ## Run locally
 
 Requires Node.js 18+ and MongoDB (local or Atlas).
